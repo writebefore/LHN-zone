@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "cd packages/client npm run build"
+    "build": "cd packages/client && npm run build"
   },
   "devDependencies": {
     "husky": "^7.0.4",
