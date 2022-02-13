@@ -25,7 +25,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm run bootstrap
-    - run: npm run build --if-present
+    - run: npm run build
     # 打包镜像推送到腾讯云容器镜像服务
     - name: Build the Docker image
       run: |
