@@ -11,21 +11,28 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+    - name: checkout
+      uses: actions/checkout@master
+    # 安装依赖
+    - name: install
+      run: npm
+    # 打包
+    - name: build project
+      run: npm run build
+    # 打包镜像推送到腾讯云容器镜像服务
+    - name: Build the Docker image
+      run: |
+        docker login --username=${{ secrets.DOCKER_USERNAME }} ccr.ccs.tencentyun.com --password=${{ secrets.DOCKER_PASSWORD }}
+        docker build -t lhn-zone:latest .
+        docker tag lhn-zone ccr.ccs.tencentyun.com/lhn-zone/lhn-zone:latest
+        docker push ccr.ccs.tencentyun.com/lhn-zone/lhn-zone:latest
+    # 使用appleboy/ssh-action@master登录服务器执行拉取镜像脚本，服务器ip、用户名、密码配置方式同容器镜像服务配置方式一样
+    - name: ssh docker login
+      uses: appleboy/ssh-action@master
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        script: cd ~ && sh lhn-zone.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
