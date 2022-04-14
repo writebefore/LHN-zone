@@ -38,6 +38,9 @@ function App() {
           </a>
         </p>
       </header>
+      <footer className='App-footer'>
+        <a className='Goverment-link' href='https://beian.miit.gov.cn/'>京ICP备2021038028号-1</a>
+      </footer>
     </div>
   )
 }

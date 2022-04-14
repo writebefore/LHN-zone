@@ -40,3 +40,12 @@
 button {
   font-size: calc(10px + 2vmin);
 }
+
+.App-footer{ 
+  background-color: #282c34;
+}
+
+.Goverment-link{
+  text-decoration: none;
+  color: #fff;
+}
