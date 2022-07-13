@@ -6,9 +6,7 @@ function App() {
   const [count, setCount] = useState(0)
   return (
     <div className="App">
-      <header className="App-he
-      
-      ader">
+      <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>LHN ZONE</p>
         <p>
